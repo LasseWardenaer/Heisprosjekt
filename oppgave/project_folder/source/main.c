@@ -20,7 +20,7 @@ int main(){
             break;
         }
 
-        if(hardware_read_floor_sensor(0)){
+        if(hardware_read_floor_sensor(1)){
             hardware_command_movement(HARDWARE_MOVEMENT_UP);
         }
         if(hardware_read_floor_sensor(HARDWARE_NUMBER_OF_FLOORS - 1)){
