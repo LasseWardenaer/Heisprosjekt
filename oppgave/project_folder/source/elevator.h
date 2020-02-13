@@ -11,7 +11,7 @@
  */
 
 struct Elevator{
-    floor next_floor;
+    floor_enum next_floor;
     bool door_closed;
     direction movement_dir;
     bool stop_pushed;
@@ -30,7 +30,7 @@ void elevator_init();
  * @return void
  */
 
-void elevator_go_to_floor(floor floor_variable);
+void elevator_go_to_floor(floor_enum floor_variable);
 
 /**
  * @brief Closes door.
@@ -63,8 +63,8 @@ void elevator_light_off(light ligth_variable);
 void elevator_light_on(light light_variable);
 
 /**
- * @brief Checks if there are any obsticles blocking the door.
+ * @brief Checks if there are any obstacles blocking the door.
  * @return bool 
  */
 
-bool elevator_check_obsticle();
+bool elevator_check_obstacle();

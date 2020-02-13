@@ -137,4 +137,20 @@ floor_enum hardware_return_floor(floor_enum current_floor);
 
 void hardware_update_floor_ligths(floor_enum current_floor);
 
+/**
+ * @brief Updates the floor light when the elevator reaches a new floor
+ * @return Floor light pushed
+ */
+
+/**
+ * @brief Set order light at floor on or off.
+ * @param floor Selected floor.
+ * @param dir Sets the direction of the light.
+ * @param on_off Sets the light state on or off.
+ */
+
+
+void set_up_down_light_at_floor_on();
+
+
 #endif

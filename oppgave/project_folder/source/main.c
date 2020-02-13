@@ -5,6 +5,7 @@
 
 int main(){
     floor_enum current_floor = undefined_floor;
+    elevator_state_machine elevator_state = initilize;
     int error = hardware_init();
     if(error != 0){
         fprintf(stderr, "Unable to initialize hardware\n");
@@ -19,6 +20,9 @@ int main(){
     printf("%d", current_floor);
 
     while(1){
+        current_floor = hardware_return_floor(current_floor); 
+        hardware_update_floor_ligths(current_floor);
+
         if(hardware_read_stop_signal()){
             hardware_command_movement(HARDWARE_MOVEMENT_STOP);
             break;
@@ -32,8 +36,6 @@ int main(){
             hardware_command_movement(HARDWARE_MOVEMENT_DOWN);     
         }
 
-        current_floor = hardware_return_floor(current_floor); 
-        hardware_update_floor_ligths(current_floor);
        
     }
 }

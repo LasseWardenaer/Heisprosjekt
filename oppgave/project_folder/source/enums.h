@@ -15,12 +15,18 @@ typedef enum {
 } direction;
 
 typedef enum {
+    on,
+    off
+} on_off;
+
+typedef enum {
     initilize,
     idle,
-    move,
+    move_up,
+    move_down,
     door_open,
     emergency_stop
-} elevator_state;
+} elevator_state_machine;
 
 typedef enum {
     floor_up_light,

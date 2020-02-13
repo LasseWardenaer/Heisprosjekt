@@ -212,12 +212,49 @@ floor_enum hardware_return_floor(floor_enum current_floor){
 }
 
 
-
 void hardware_update_floor_ligths(floor_enum current_floor){
     if(current_floor == undefined_floor){
         hardware_command_floor_indicator_on(floor_1);
     }
     else{
         hardware_command_floor_indicator_on(current_floor);
+    }
+}
+
+
+
+
+void set_up_down_light_at_floor_on(direction dir){
+    if(hardware_read_order(floor_4, HARDWARE_ORDER_UP)){
+        return;
+    }
+    else if(hardware_read_order(floor_1, HARDWARE_ORDER_DOWN)){
+        return;
+    }
+    else{
+        if(hardware_read_order(floor_1, HARDWARE_ORDER_UP)){
+            hardware_command_order_light(floor_1, HARDWARE_ORDER_UP, 1);
+        }
+        if(hardware_read_order(floor_1, HARDWARE_ORDER_DOWN)){
+            hardware_command_order_light(floor_1, HARDWARE_ORDER_DOWN, 1);
+        }
+        if(hardware_read_order(floor_1, HARDWARE_ORDER_UP)){
+            hardware_command_order_light(floor_2, HARDWARE_ORDER_UP, 1);
+        }
+        if(hardware_read_order(floor_1, HARDWARE_ORDER_DOWN)){
+            hardware_command_order_light(floor_2, HARDWARE_ORDER_DOWN, 1);
+        }
+        if(hardware_read_order(floor_1, HARDWARE_ORDER_UP)){
+            hardware_command_order_light(floor_3, HARDWARE_ORDER_UP, 1);
+        }
+        if(hardware_read_order(floor_1, HARDWARE_ORDER_DOWN)){
+            hardware_command_order_light(floor_3, HARDWARE_ORDER_DOWN, 1);
+        }
+        if(hardware_read_order(floor_1, HARDWARE_ORDER_UP)){
+            hardware_command_order_light(floor_4, HARDWARE_ORDER_UP, 1);
+        }
+        if(hardware_read_order(floor_1, HARDWARE_ORDER_DOWN)){
+            hardware_command_order_light(floor_4, HARDWARE_ORDER_DOWN, 1);
+        }
     }
 }
