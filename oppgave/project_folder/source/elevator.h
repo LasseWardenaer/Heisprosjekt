@@ -6,7 +6,7 @@
 #include "enums.h"
 
 /**
- * @brief Elevator struct that holds variables 
+ * @brief Elevator struct that holds variables
  */
 
 struct Elevator{
@@ -39,7 +39,7 @@ void elevator_go_to_floor(floor floor_variable);
 void elevator_close_door();
 
 /**
- * @brief Opens door. 
+ * @brief Opens door.
  * @return void
  */
 
@@ -62,9 +62,15 @@ void elevator_light_off(light ligth_variable);
 void elevator_light_on(light light_variable);
 
 /**
- * @brief Checks if there are any obsticles blocking the door.
- * @return bool 
+ * @brief Checks if there are any obstacles blocking the door.
+ * @return bool
  */
 
-bool elevator_check_obsticle();
+bool elevator_check_obstacle();
 
+/**
+ * @brief Checks if the stop button is pressed.
+ * @return void
+ */
+
+void elevator_stop_movement();
