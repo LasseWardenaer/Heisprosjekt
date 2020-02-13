@@ -4,6 +4,9 @@
  */
 #pragma once
 #include "enums.h"
+#include "hardware.h"
+#include <unistd.h>
+
 
 
 /**
@@ -11,7 +14,7 @@
  */
 
 struct Elevator{
-    floor next_floor;
+    floor_enum next_floor;
     bool door_closed;
     direction movement_dir;
     bool stop_pushed;
@@ -30,7 +33,7 @@ void elevator_init();
  * @return void
  */
 
-void elevator_go_to_floor(floor floor_variable);
+void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, HardwareOrder order_type);
 
 /**
  * @brief Closes door.
@@ -67,7 +70,6 @@ void elevator_light_on(light light_variable);
  * @return bool
  */
 
-<<<<<<< HEAD
 bool elevator_check_obstacle();
 
 /**
@@ -76,6 +78,3 @@ bool elevator_check_obstacle();
  */
 
 void elevator_stop_movement();
-=======
-bool elevator_check_obsticle();
->>>>>>> 30f2381509d0c366e8402f8ccac65f64a33c42e5
