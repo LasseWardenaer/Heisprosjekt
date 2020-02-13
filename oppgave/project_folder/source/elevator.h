@@ -7,7 +7,7 @@
 
 
 /**
- * @brief Elevator struct that holds variables 
+ * @brief Elevator struct that holds variables
  */
 
 struct Elevator{
@@ -40,7 +40,7 @@ void elevator_go_to_floor(floor_enum floor_variable);
 void elevator_close_door();
 
 /**
- * @brief Opens door. 
+ * @brief Opens door.
  * @return void
  */
 
@@ -64,7 +64,25 @@ void elevator_light_on(light light_variable);
 
 /**
  * @brief Checks if there are any obstacles blocking the door.
+<<<<<<< HEAD
  * @return bool 
  */
 
 bool elevator_check_obstacle();
+=======
+ * @return bool
+ */
+
+<<<<<<< HEAD
+bool elevator_check_obstacle();
+
+/**
+ * @brief Checks if the stop button is pressed.
+ * @return void
+ */
+
+void elevator_stop_movement();
+=======
+bool elevator_check_obsticle();
+>>>>>>> 30f2381509d0c366e8402f8ccac65f64a33c42e5
+>>>>>>> e2159f4452ab99d12c865ef6ae8b152be5eff76c
