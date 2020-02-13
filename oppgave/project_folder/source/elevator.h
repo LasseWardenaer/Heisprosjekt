@@ -71,10 +71,6 @@ void elevator_light_on(light light_variable);
  * @return bool 
  */
 
-bool elevator_check_obstacle();
-=======
- * @return bool
- */
 
 bool elevator_check_obstacle();
 
