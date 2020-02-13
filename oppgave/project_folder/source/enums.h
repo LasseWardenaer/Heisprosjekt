@@ -1,24 +1,28 @@
-enum floor{
-    floor_1 = 1,
-    floor_2 = 2,
-    floor_3 = 3,
-    floor_4 = 4
-}
+#ifndef ENUM
+#define ENUM
 
-enum direction {
-    UP,
-    DOWN
-}
+typedef enum {
+    floor_1 = 0,
+    floor_2 = 1,
+    floor_3 = 2,
+    floor_4 = 3,
+    undefined_floor = 4
+} floor_enum;
 
-enum elevator_state{
+typedef enum {
+    up,
+    down
+} direction;
+
+typedef enum {
     initilize,
     idle,
     move,
     door_open,
     emergency_stop
-}
+} elevator_state;
 
-enum light{
+typedef enum {
     floor_up_light,
     floor_down_light,
     elev_floor_1_light,
@@ -28,6 +32,8 @@ enum light{
     floor_1_light,
     floor_2_light,
     floor_3_light,
-    floor_4_light
+    floor_4_light,
     stop_light
-}
+} light;
+
+#endif

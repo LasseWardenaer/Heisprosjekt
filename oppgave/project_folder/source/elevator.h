@@ -2,8 +2,9 @@
  * @file
  * @brief This is an elevator module
  */
-
+#pragma once
 #include "enums.h"
+
 
 /**
  * @brief Elevator struct that holds variables 
@@ -14,7 +15,7 @@ struct Elevator{
     bool door_closed;
     direction movement_dir;
     bool stop_pushed;
-    light light_on[5];
+    bool light_on[5];
 };
 
 /**
@@ -67,4 +68,3 @@ void elevator_light_on(light light_variable);
  */
 
 bool elevator_check_obsticle();
-

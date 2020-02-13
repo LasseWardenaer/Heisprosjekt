@@ -10,6 +10,7 @@
 #ifndef HARDWARE_H
 #define HARDWARE_H
 #define HARDWARE_NUMBER_OF_FLOORS 4
+#include "enums.h"
 
 /**
  * @brief Movement type used in @c hardware_command_movement.
@@ -121,5 +122,19 @@ void hardware_command_stop_light(int on);
  * 0 to turn it off.
  */
 void hardware_command_order_light(int floor, HardwareOrder order_type, int on);
+
+/**
+ * @brief Gets the last visited floor.
+ * @return The last floor number.
+ */
+
+floor_enum hardware_return_floor(floor_enum current_floor);
+
+/**
+ * @brief Updates the floor light when the elevator reaches a new floor
+ *
+ */
+
+void hardware_update_floor_ligths(floor_enum current_floor);
 
 #endif
