@@ -157,7 +157,7 @@ void hardware_command_floor_indicator_on(int floor){
         io_set_bit(LIGHT_FLOOR_IND2);
     }
     else{
-        io_set_bit(LIGHT_FLOOR_IND2);
+        io_clear_bit(LIGHT_FLOOR_IND2);
     }
 }
 
@@ -189,5 +189,35 @@ void hardware_command_order_light(int floor, HardwareOrder order_type, int on){
     }
     else{
         io_clear_bit(light_bit_lookup[floor][type_bit]);
+    }
+}
+
+floor_enum hardware_return_floor(floor_enum current_floor){
+    if(hardware_read_floor_sensor(floor_1)){
+        return floor_1;
+    }
+    else if(hardware_read_floor_sensor(floor_2)){
+        return floor_2;
+        
+    }
+    else if(hardware_read_floor_sensor(floor_3)){
+        return floor_3;  
+    }
+    else if(hardware_read_floor_sensor(floor_4)){
+        return floor_4;
+    }
+    else{
+        return current_floor;
+    }
+}
+
+
+
+void hardware_update_floor_ligths(floor_enum current_floor){
+    if(current_floor == undefined_floor){
+        hardware_command_floor_indicator_on(floor_1);
+    }
+    else{
+        hardware_command_floor_indicator_on(current_floor);
     }
 }
