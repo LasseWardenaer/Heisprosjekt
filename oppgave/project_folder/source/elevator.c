@@ -4,9 +4,9 @@ void elevator_init(){
   elevator_go_to_floor(floor_1);
 }
 
-void elevator_go_to_floor(floor floor_variable){
-  while ((hardware_read_floor_sensor(floor_variable)!=floor_variable)&&){
-    int diff = (floor_variable-hardware_read_floor_sensor(floor_variable);
+void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, HardwareOrder order_type){
+  while ((hardware_read_floor_sensor(floor_variable)){
+    int diff = (floor_variable-current_floor);
     if (!hardware_read_stop_signal()){
       if (diff>0){
         hardware_command_movement(HARDWARE_MOVEMENT_UP);
@@ -20,9 +20,9 @@ void elevator_go_to_floor(floor floor_variable){
         hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       }
       sleep(3);
-      }
     }
   }
+  hardware_command_order_light(floor_variable, order_type, 0);
 }
 
 

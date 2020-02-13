@@ -4,6 +4,9 @@
  */
 #pragma once
 #include "enums.h"
+#include "hardware.h"
+#include <unistd.h>
+
 
 
 /**
@@ -30,7 +33,7 @@ void elevator_init();
  * @return void
  */
 
-void elevator_go_to_floor(floor_enum floor_variable);
+void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, HardwareOrder order_type);
 
 /**
  * @brief Closes door.
@@ -73,7 +76,6 @@ bool elevator_check_obstacle();
  * @return bool
  */
 
-<<<<<<< HEAD
 bool elevator_check_obstacle();
 
 /**
@@ -82,7 +84,3 @@ bool elevator_check_obstacle();
  */
 
 void elevator_stop_movement();
-=======
-bool elevator_check_obsticle();
->>>>>>> 30f2381509d0c366e8402f8ccac65f64a33c42e5
->>>>>>> e2159f4452ab99d12c865ef6ae8b152be5eff76c
