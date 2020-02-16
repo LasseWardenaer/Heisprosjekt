@@ -5,6 +5,8 @@
 
 void test_lights(floor_enum current_floor);
 
-void go_to_floor();
+void test_go_to_floor();
+
+void test_init();
 
 #endif

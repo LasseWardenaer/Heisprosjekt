@@ -20,5 +20,7 @@ int main(){
     
     printf("%d", current_floor);
 
-    test_lights(current_floor);
+    //test_lights(current_floor);
+    //test_init();
+    test_go_to_floor();
 }

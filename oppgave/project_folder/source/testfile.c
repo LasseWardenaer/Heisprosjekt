@@ -1,5 +1,6 @@
 #include "hardware.h"
 #include "testfile.h"
+#include "elevator.h"
 
 void test_lights(floor_enum current_floor){
     while(1){
@@ -25,6 +26,14 @@ void test_lights(floor_enum current_floor){
     }
 }
 
-void go_to_floor(){
-    
+void test_go_to_floor(){
+    elevator_init();
+    floor_enum current_floor = floor_1;
+    elevator_go_to_floor(floor_3, current_floor, HARDWARE_ORDER_INSIDE);
+    current_floor = hardware_return_floor(current_floor);
+    elevator_go_to_floor(floor_2, current_floor, HARDWARE_ORDER_INSIDE);
+}
+
+void test_init(){
+    elevator_init();
 }
