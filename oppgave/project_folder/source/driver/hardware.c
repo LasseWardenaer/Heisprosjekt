@@ -241,7 +241,7 @@ void hardware_set_up_down_light_at_floor_on(){
     if(hardware_read_order(floor_4, HARDWARE_ORDER_DOWN)){
         hardware_command_order_light(floor_4, HARDWARE_ORDER_DOWN, 1);
     }
-}
+} //legg floors i liste og kjør for-løkke
 
 void hardware_set_floor_lights_inside_elevator(){
     if(hardware_read_order(floor_1, HARDWARE_ORDER_INSIDE)){

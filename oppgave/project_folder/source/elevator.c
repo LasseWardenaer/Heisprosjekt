@@ -35,8 +35,8 @@ void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, H
 
 
 void elevator_close_door(){
+  sleep(3);
   if(hardware_read_obstruction_signal()){
-    sleep(3);
     elevator_close_door();
   }
   hardware_command_door_open(0);
