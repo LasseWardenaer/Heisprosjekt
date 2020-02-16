@@ -150,7 +150,12 @@ void hardware_update_floor_ligths(floor_enum current_floor);
  */
 
 
-void set_up_down_light_at_floor_on();
+void hardware_set_up_down_light_at_floor_on();
 
+/**
+ * @brief Sets the floor lights insde the elevator
+ */
+
+void hardware_set_floor_lights_inside_elevator();
 
 #endif

@@ -8,7 +8,7 @@ static int hardware_legal_floor(int floor, HardwareOrder order_type){
     int lower_floor = 0;
     int upper_floor = HARDWARE_NUMBER_OF_FLOORS - 1;
 
-    if(floor < lower_floor || floor >= upper_floor){
+    if(floor < lower_floor || floor > upper_floor){
         return 0;
     }
 
@@ -222,9 +222,7 @@ void hardware_update_floor_ligths(floor_enum current_floor){
 }
 
 
-void set_up_down_light_at_floor_on(){
-  
-
+void hardware_set_up_down_light_at_floor_on(){
     if(hardware_read_order(floor_1, HARDWARE_ORDER_UP)){
         hardware_command_order_light(floor_1, HARDWARE_ORDER_UP, 1);
     }
@@ -243,5 +241,20 @@ void set_up_down_light_at_floor_on(){
     if(hardware_read_order(floor_4, HARDWARE_ORDER_DOWN)){
         hardware_command_order_light(floor_4, HARDWARE_ORDER_DOWN, 1);
     }
-    
 }
+
+void hardware_set_floor_lights_inside_elevator(){
+    if(hardware_read_order(floor_1, HARDWARE_ORDER_INSIDE)){
+        hardware_command_order_light(floor_1, HARDWARE_ORDER_INSIDE, 1);
+    }
+    if(hardware_read_order(floor_2, HARDWARE_ORDER_INSIDE)){
+        hardware_command_order_light(floor_2, HARDWARE_ORDER_INSIDE, 1);
+    }
+    if(hardware_read_order(floor_3, HARDWARE_ORDER_INSIDE)){
+        hardware_command_order_light(floor_3, HARDWARE_ORDER_INSIDE, 1);
+    }
+    if(hardware_read_order(floor_4, HARDWARE_ORDER_INSIDE)){
+        hardware_command_order_light(floor_4, HARDWARE_ORDER_INSIDE, 1);
+    }
+}
+

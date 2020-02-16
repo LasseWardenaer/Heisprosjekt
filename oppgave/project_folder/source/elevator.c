@@ -1,11 +1,11 @@
 #include "elevator.h"
 
 void elevator_init(){
-  elevator_go_to_floor(floor_1);
+  //elevator_go_to_floor(floor_1);
 }
 
 void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, HardwareOrder order_type){
-  while ((hardware_read_floor_sensor(floor_variable)){
+  while (hardware_read_floor_sensor(floor_variable)){
     int diff = (floor_variable-current_floor);
     if (!hardware_read_stop_signal()){
       if (diff>0){
@@ -47,7 +47,7 @@ void elevator_light_on(light light_variable){
 
 
 bool elevator_check_obstacle(){
-
+  return 1;
 }
 
 

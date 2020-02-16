@@ -6,6 +6,7 @@
 #include "enums.h"
 #include "hardware.h"
 #include <unistd.h>
+#include <stdbool.h>
 
 
 

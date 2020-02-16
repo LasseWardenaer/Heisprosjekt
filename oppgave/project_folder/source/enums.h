@@ -15,8 +15,8 @@ typedef enum {
 } direction;
 
 typedef enum {
-    on,
-    off
+    on = 1,
+    off = 0
 } on_off;
 
 typedef enum {
