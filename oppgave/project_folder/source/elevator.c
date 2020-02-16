@@ -29,16 +29,23 @@ void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, H
     }
   }
   hardware_command_order_light(floor_variable, order_type, 0);
+  elevator_open_door();
+  elevator_close_door();
 }
 
 
 void elevator_close_door(){
-
+  if(hardware_read_obstruction_signal()){
+    sleep(3);
+    elevator_close_door();
+  }
+  hardware_command_door_open(0);
 }
 
 
 void elevator_open_door(){
-  
+  hardware_command_door_open(1);
+  sleep(3);
 }
 
 
