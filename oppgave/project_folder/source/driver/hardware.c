@@ -240,7 +240,7 @@ void set_up_down_light_at_floor_on(){
     if(hardware_read_order(floor_3, HARDWARE_ORDER_DOWN)){
         hardware_command_order_light(floor_3, HARDWARE_ORDER_DOWN, 1);
     }
-    if(hardware_read_order(floor_1, HARDWARE_ORDER_DOWN)){
+    if(hardware_read_order(floor_4, HARDWARE_ORDER_DOWN)){
         hardware_command_order_light(floor_4, HARDWARE_ORDER_DOWN, 1);
     }
     
