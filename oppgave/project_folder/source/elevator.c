@@ -3,6 +3,7 @@
 #include "timer.h"
 #include "queue_system.h"
 
+
 void elevator_init(){
   floor_enum current_floor = undefined_floor;
   hardware_command_movement(HARDWARE_MOVEMENT_DOWN);

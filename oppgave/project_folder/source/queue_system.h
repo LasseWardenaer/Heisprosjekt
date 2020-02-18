@@ -4,11 +4,11 @@
 #include <stdbool.h>
 #include "hardware.h"
 
-void queue_system_check_for_orders(bool* order_state[][]);
+void queue_system_check_for_orders(bool** order_state);
 
-bool check_above(bool **order_state);
+bool check_above(bool **order_state, floor_enum current_floor);
 
-bool check_below(bool **order_state);
+bool check_below(bool **order_state, floor_enum current_floor);
 
 /**
  * @brief Updates the queue list
@@ -22,7 +22,7 @@ void queue_system_update_inside(int* floor_states[]);
  * @return 1 if the elevator should stop at a floor
  */
 
-bool queue_system_check_if_stop(direction dir, floor_enum current_floor, int** floor_state);
+bool queue_system_check_if_stop(elevator_state_machine* state, floor_enum current_floor, int** order_state);
 
 /**
  * @brief Clears all orders if stop button is pressed.

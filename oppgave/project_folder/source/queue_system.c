@@ -44,30 +44,60 @@ void queue_system_check_for_orders(bool **order_state){
     }
 }
 
-bool check_above(bool **order_state){
-    return true
+bool check_above(bool **order_state, floor_enum current_floor){
+    if(current_floor == floor_4){
+        return false;
+        }
+    for(int floor = (current_floor + 1); floor < 4; floor++){
+        for(int state = 0; state < 2; state++){
+            if(order_state[floor][state] == true){
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
-bool check_below(bool **order_state){
-    return true
+bool check_below(bool **order_state, floor_enum current_floor){
+    if(current_floor == floor_1){
+        return false;
+    }
+    for(int floor = (current_floor - 1); floor > -1; floor--){
+        for(int state = 0; state < 3; state += 2){
+            if(order_state[floor][state] == true){
+                return true;
+            }
+        }
+    }
+    return true;
 }
 
-bool queue_system_check_if_stop(direction dir, floor_enum current_floor, int** floor_state){
-    if(floor_state[current_floor][ORDER_INSIDE] && dir == up){
-        floor_state[current_floor][ORDER_INSIDE] = 0;
-        floor_state[current_floor][ORDER_UP] = 0;
+bool queue_system_check_if_stop(elevator_state_machine* state, floor_enum current_floor, int** order_state){
+    if((order_state[current_floor][ORDER_INSIDE] || order_state[current_floor][ORDER_UP]) && *(state) == move_up){
+        order_state[current_floor][ORDER_INSIDE] = false; 
+        if(!check_above(order_state, current_floor)){
+            order_state[current_floor][ORDER_UP] = false;
+            *(state) = idle;
+        }
         return true;
     }
-    if (dir == up){
-        return (floor_state[current_floor][ORDER_UP]);
+    if((order_state[current_floor][ORDER_INSIDE] || order_state[current_floor][ORDER_DOWN]) && *(state) == move_down){
+        order_state[current_floor][ORDER_INSIDE] = false; 
+        if(!check_below(order_state, current_floor)){
+            order_state[current_floor][ORDER_DOWN] = false;
+            *(state) = idle;
+        }
+        return true;
     }
-    else{
-
-    }
+    return false;
 }
 
-void queue_system_clear_all_orders(){
-
+void queue_system_clear_all_orders(int** order_state){
+    for(int floor = 0; floor < NUMBER_OF_FLOORS; floor++){
+        for(int state = 0; state < 3; state++){
+            order_state[floor][state] = false;
+        }
+    }
 }
 
 floor_enum queue_system_return_floor(floor_enum current_floor){

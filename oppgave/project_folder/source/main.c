@@ -4,10 +4,13 @@
 #include "enums.h"
 #include "testfile.h"
 #include "queue_system.h"
+#include "elevator.h"
 
 int main(){
     floor_enum current_floor = undefined_floor;
     bool order_state[4][3] = {{0,0,0},{0,0,0},{0,0,0}, {0,0,0}}; //floor 1-4, {inside, up, down}
+    elevator_init();
+    elevator_state_machine state = idle;
 
     //0 indicates no order, 1 = order down, 2 = order up, 3 = up/down, inside
     //int floor_state = [0,0,0,0];
