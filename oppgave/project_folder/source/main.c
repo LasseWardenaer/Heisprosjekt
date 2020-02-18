@@ -3,6 +3,7 @@
 #include "hardware.h"
 #include "enums.h"
 #include "testfile.h"
+#include "queue_system.h"
 
 int main(){
     floor_enum current_floor = undefined_floor;

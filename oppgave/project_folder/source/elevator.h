@@ -8,6 +8,8 @@
 #include <unistd.h>
 #include <stdbool.h>
 
+#define NUMBER_OF_FLOORS 4
+#define NUMBER_OF_BUTTONS 3
 
 
 /**
@@ -50,21 +52,21 @@ void elevator_close_door();
 
 void elevator_open_door();
 
-/**
- * @brief Turns the selected light off.
- * @param light_variable Input variable og type floor.
- * @return void
- */
+// /**
+//  * @brief Turns the selected light off.
+//  * @param light_variable Input variable og type floor.
+//  * @return void
+//  */
 
-void elevator_light_off(light ligth_variable);
+// void elevator_light_off(light ligth_variable);
 
-/**
- * @brief Turns the selected light off.
- * @param light_variable Input variable og type floor.
- * @return void
- */
+// /**
+//  * @brief Turns the selected light off.
+//  * @param light_variable Input variable og type floor.
+//  * @return void
+//  */
 
-void elevator_light_on(light light_variable);
+// void elevator_light_on(light light_variable);
 
 /**
  * @brief Checks if the stop button is pressed.
@@ -73,7 +75,3 @@ void elevator_light_on(light light_variable);
 
 void elevator_stop_movement();
 
-/**
- * @brief Clears all orders if stop button is pressed.
- * @return void
- */

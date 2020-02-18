@@ -31,7 +31,7 @@ void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, H
       break;
     }
   }
-  hardware_command_order_light(floor_variable, order_type, 0); //må slukke både lyset inni og utenpå heisen
+  hardware_command_order_light(floor_variable, order_type, 0);
   elevator_open_door();
   timer_set_wait_time(3);
   elevator_close_door();
@@ -40,21 +40,12 @@ void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, H
 
 void elevator_close_door(){
   hardware_command_door_open(0);
+
 }
 
 
 void elevator_open_door(){
   hardware_command_door_open(1);
-
-}
-
-
-void elevator_light_off(light ligth_variable){
-
-}
-
-
-void elevator_light_on(light light_variable){
 
 }
 
