@@ -67,17 +67,13 @@ void elevator_light_off(light ligth_variable);
 void elevator_light_on(light light_variable);
 
 /**
- * @brief Checks if there are any obstacles blocking the door.
-<<<<<<< HEAD
- * @return bool 
- */
-
-
-bool elevator_check_obstacle();
-
-/**
  * @brief Checks if the stop button is pressed.
  * @return void
  */
 
 void elevator_stop_movement();
+
+/**
+ * @brief Clears all orders if stop button is pressed.
+ * @return void
+ */
