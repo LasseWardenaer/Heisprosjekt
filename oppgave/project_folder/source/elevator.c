@@ -7,7 +7,7 @@ void elevator_init(){
   floor_enum current_floor = undefined_floor;
   hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
   while(current_floor != floor_1){
-    current_floor = hardware_return_floor(current_floor);
+    current_floor = queue_system_return_floor(current_floor);
   }
   hardware_command_movement(HARDWARE_MOVEMENT_STOP);
 }
@@ -17,7 +17,7 @@ void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, H
   int diff = (floor_variable-current_floor);
   while (keep_going){
     diff = (floor_variable-current_floor);
-    current_floor = hardware_return_floor(current_floor);
+    current_floor = queue_system_return_floor(current_floor);
     elevator_stop_movement();
     
     if (diff>0){

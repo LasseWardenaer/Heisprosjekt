@@ -7,10 +7,11 @@
 
 int main(){
     floor_enum current_floor = undefined_floor;
+    bool order_state[4][3] = {{0,0,0},{0,0,0},{0,0,0}, {0,0,0}}; //floor 1-4, {inside, up, down}
 
     //0 indicates no order, 1 = order down, 2 = order up, 3 = up/down, inside
     //int floor_state = [0,0,0,0];
-    //*elevator_state_machine elevator_state = initilize;
+    //elevator_state_machine elevator_state = initilize;
     int error = hardware_init();
     if(error != 0){
         fprintf(stderr, "Unable to initialize hardware\n");
@@ -25,6 +26,6 @@ int main(){
     printf("%d", current_floor);
 
     //test_lights(current_floor);
-    //test_init();
-    test_go_to_floor();
+    test_init();
+    //test_go_to_floor();
 }
