@@ -41,3 +41,16 @@ void test_init(){
     elevator_init();
 }
 
+void test_move_and_queue(bool **order_state, floor_enum current_floor, elevator_state_machine state){
+    while(true){
+    queue_system_check_for_orders(order_state);
+    if(state == idle){
+        queue_system_set_state(order_state, current_floor, state);
+    }
+    else{
+    queue_system_set_state(order_state, current_floor, state);
+    elevator_move(order_state, current_floor, state);
+    }
+    }
+}
+

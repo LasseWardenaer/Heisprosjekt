@@ -5,10 +5,11 @@
 #include "testfile.h"
 #include "queue_system.h"
 #include "elevator.h"
+#include <stdbool.h>
 
 int main(){
     floor_enum current_floor = undefined_floor;
-    bool order_state[4][3] = {{0,0,0},{0,0,0},{0,0,0}, {0,0,0}}; //floor 1-4, {inside, up, down}
+    bool (**order_state) = malloc(sizeof(bool[4][3]));  //{{0,0,0},{0,0,0},{0,0,0}, {0,0,0}}; //floor 1-4, {inside, up, down}
     elevator_init();
     elevator_state_machine state = idle;
 
@@ -29,6 +30,8 @@ int main(){
     printf("%d", current_floor);
 
     //test_lights(current_floor);
-    test_init();
+    //test_init();
     //test_go_to_floor();
+    test_move_and_queue(order_state, current_floor, state);
+    free(order_state);
 }

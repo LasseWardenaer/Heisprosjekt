@@ -66,4 +66,6 @@ void queue_system_set_queue_and_light();
 
 void queue_system_set_queue_and_light_inside_elevator();
 
+void queue_system_set_state(bool** order_state,floor_enum current_floor, elevator_state_machine* state);
+
 #endif

@@ -75,3 +75,4 @@ void elevator_open_door();
 
 void elevator_stop_movement();
 
+void elevator_move(int** order_state, floor_enum current_floor, elevator_state_machine current_state);

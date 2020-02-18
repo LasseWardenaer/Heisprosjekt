@@ -165,3 +165,12 @@ void queue_system_set_queue_and_light_inside_elevator(){
         hardware_command_order_light(floor_4, HARDWARE_ORDER_INSIDE, 1);
     }
 }
+
+void queue_system_set_state(bool** order_state,floor_enum current_floor, elevator_state_machine* state){
+    if(check_above(order_state, current_floor)){
+        *(state) = move_up;
+    }
+    if(check_below(order_state, current_floor)){
+        *(state) = move_down;
+    }
+}

@@ -38,6 +38,26 @@ void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, H
   elevator_close_door();
 }
 
+void elevator_move(int** order_state,floor_enum current_floor, elevator_state_machine current_state){
+  elevator_state_machine state = current_state;
+  switch(state){
+    case(idle):
+      hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+      break;
+    case(move_down):
+      hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+      break;
+    case(move_up):
+      hardware_command_movement(HARDWARE_MOVEMENT_UP);
+      break;
+  }  
+  if(queue_system_check_if_stop(current_state, current_floor, order_state)){
+    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+    elevator_open_door();
+    elevator_close_door();
+  }
+}
+
 
 void elevator_close_door(){
   hardware_command_door_open(0);
@@ -47,7 +67,7 @@ void elevator_close_door(){
 
 void elevator_open_door(){
   hardware_command_door_open(1);
-
+  timer_set_wait_time(3);
 }
 
 
