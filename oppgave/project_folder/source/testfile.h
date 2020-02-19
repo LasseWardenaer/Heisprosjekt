@@ -3,12 +3,12 @@
 
 #include "enums.h"
 
-void test_lights(floor_enum current_floor);
+void test_lights(floor_enum* current_floor);
 
 void test_go_to_floor();
 
 void test_init();
 
-void test_move_and_queue(int **order_state, floor_enum* current_floor, elevator_state_machine *state);
+void test_move_and_queue(int order_state, floor_enum current_floor, elevator_state_machine state);
 
 #endif

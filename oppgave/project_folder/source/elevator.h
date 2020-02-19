@@ -27,7 +27,7 @@ struct Elevator{
  * @brief Initilizes the elvator during start up sequence.
  */
 
-void elevator_init(elevator_state_machine* state, floor_enum *current_floor);
+void elevator_init(elevator_state_machine state, floor_enum current_floor);
 
 /**
  * @brief Moves the elevator to selected floor of type floor.

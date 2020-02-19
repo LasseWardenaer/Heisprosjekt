@@ -4,14 +4,14 @@
 #include "queue_system.h"
 
 
-void elevator_init(elevator_state_machine* state, floor_enum* current_floor){
-  *current_floor = undefined_floor;
+void elevator_init(elevator_state_machine state, floor_enum current_floor){
+  current_floor = undefined_floor;
   hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-  while(*current_floor != floor_1){
-    *current_floor = queue_system_return_floor(current_floor);
+  while(current_floor != floor_1){
+    current_floor = queue_system_return_floor(current_floor);
   }
   hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-  *state = idle;
+  state = idle;
 
 }
 

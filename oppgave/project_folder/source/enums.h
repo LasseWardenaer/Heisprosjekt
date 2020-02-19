@@ -1,6 +1,7 @@
 #ifndef ENUM
 #define ENUM
 
+
 typedef enum floor_enum{
     floor_1 = 0,
     floor_2 = 1,
