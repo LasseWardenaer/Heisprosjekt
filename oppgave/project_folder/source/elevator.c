@@ -4,43 +4,44 @@
 #include "queue_system.h"
 
 
-void elevator_init(){
-  floor_enum current_floor = undefined_floor;
+void elevator_init(elevator_state_machine* state, floor_enum* current_floor){
+  *current_floor = undefined_floor;
   hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-  while(current_floor != floor_1){
-    current_floor = queue_system_return_floor(current_floor);
+  while(*current_floor != floor_1){
+    *current_floor = queue_system_return_floor(current_floor);
   }
   hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+  *state = idle;
+
 }
 
-void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, HardwareOrder order_type){
-  bool keep_going = true;
-  int diff = (floor_variable-current_floor);
-  while (keep_going){
-    diff = (floor_variable-current_floor);
-    current_floor = queue_system_return_floor(current_floor);
-    elevator_stop_movement();
+// void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, HardwareOrder order_type){
+//   int keep_going = 1;
+//   int diff = (floor_variable-current_floor);
+//   while (keep_going){
+//     diff = (floor_variable-current_floor);
+//     current_floor = queue_system_return_floor(current_floor);
+//     elevator_stop_movement();
     
-    if (diff>0){
-      hardware_command_movement(HARDWARE_MOVEMENT_UP);
-    }
-    else if (diff<0){
-      hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-    }
-    else {
-      hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-      break;
-    }
-  }
-  hardware_command_order_light(floor_variable, order_type, 0);
-  elevator_open_door();
-  timer_set_wait_time(3);
-  elevator_close_door();
-}
+//     if (diff>0){
+//       hardware_command_movement(HARDWARE_MOVEMENT_UP);
+//     }
+//     else if (diff<0){
+//       hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+//     }
+//     else {
+//       hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+//       break;
+//     }
+//   }
+//   hardware_command_order_light(floor_variable, order_type, 0);
+//   elevator_open_door();
+//   timer_set_wait_time(3);
+//   elevator_close_door();
+// }
 
-void elevator_move(int** order_state,floor_enum current_floor, elevator_state_machine current_state){
-  elevator_state_machine state = current_state;
-  switch(state){
+void elevator_move(int** order_state,floor_enum* current_floor, elevator_state_machine *current_state){
+  switch(*current_state){
     case(idle):
       hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       break;
@@ -50,10 +51,14 @@ void elevator_move(int** order_state,floor_enum current_floor, elevator_state_ma
     case(move_up):
       hardware_command_movement(HARDWARE_MOVEMENT_UP);
       break;
+    case(door_open):
+      break;
+    case(emergency_stop):
+      break;
   }  
-  if(queue_system_check_if_stop(current_state, current_floor, order_state)){
+  if(queue_system_check_if_stop(current_state, *current_floor, order_state)){
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-    elevator_open_door();
+    elevator_open_door(order_state);
     elevator_close_door();
   }
 }
@@ -65,9 +70,9 @@ void elevator_close_door(){
 }
 
 
-void elevator_open_door(){
+void elevator_open_door(int **order_state){
   hardware_command_door_open(1);
-  timer_set_wait_time(3);
+  timer_set_wait_time(3, order_state);
 }
 
 

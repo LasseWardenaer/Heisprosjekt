@@ -6,7 +6,6 @@
 #include "enums.h"
 #include "hardware.h"
 #include <unistd.h>
-#include <stdbool.h>
 
 #define NUMBER_OF_FLOORS 4
 #define NUMBER_OF_BUTTONS 3
@@ -18,17 +17,17 @@
 
 struct Elevator{
     floor_enum next_floor;
-    bool door_closed;
+    int door_closed;
     direction movement_dir;
-    bool stop_pushed;
-    bool light_on[5];
+    int stop_pushed;
+    int light_on[5];
 };
 
 /**
  * @brief Initilizes the elvator during start up sequence.
  */
 
-void elevator_init();
+void elevator_init(elevator_state_machine* state, floor_enum *current_floor);
 
 /**
  * @brief Moves the elevator to selected floor of type floor.
@@ -36,7 +35,7 @@ void elevator_init();
  * @return void
  */
 
-void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, HardwareOrder order_type);
+// void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, HardwareOrder order_type);
 
 /**
  * @brief Closes door.
@@ -50,7 +49,7 @@ void elevator_close_door();
  * @return void
  */
 
-void elevator_open_door();
+void elevator_open_door(int **order_state);
 
 // /**
 //  * @brief Turns the selected light off.
@@ -75,4 +74,4 @@ void elevator_open_door();
 
 void elevator_stop_movement();
 
-void elevator_move(int** order_state, floor_enum current_floor, elevator_state_machine current_state);
+void elevator_move(int** order_state, floor_enum* current_floor, elevator_state_machine *current_state);

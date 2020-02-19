@@ -1,28 +1,26 @@
 #ifndef QUEUE_SYSTEM
 #define QUEUE_SYSTEM
 
-#include <stdbool.h>
+
 #include "hardware.h"
 
-void queue_system_check_for_orders(bool** order_state);
+void queue_system_check_for_orders(int** order_state);
 
-bool check_above(bool **order_state, floor_enum current_floor);
+int check_above(int **order_state, floor_enum current_floor);
 
-bool check_below(bool **order_state, floor_enum current_floor);
+int check_below(int **order_state, floor_enum current_floor);
 
 /**
  * @brief Updates the queue list
  */
 
-void queue_system_update_outside(int* floor_states[], floor_enum floor, direction dir);
 
-void queue_system_update_inside(int* floor_states[]);
 /**
  * @brief Check if the elevator should stop at a floor
  * @return 1 if the elevator should stop at a floor
  */
 
-bool queue_system_check_if_stop(elevator_state_machine* state, floor_enum current_floor, int** order_state);
+int queue_system_check_if_stop(elevator_state_machine* state, floor_enum current_floor, int** order_state);
 
 /**
  * @brief Clears all orders if stop button is pressed.
@@ -36,7 +34,7 @@ void queue_system_clear_all_orders();
  * @return The last floor number.
  */
 
-floor_enum queue_system_return_floor(floor_enum current_floor);
+floor_enum queue_system_return_floor(floor_enum* current_floor);
 
 /**
  * @brief Updates the floor light when the elevator reaches a new floor
@@ -66,6 +64,6 @@ void queue_system_set_queue_and_light();
 
 void queue_system_set_queue_and_light_inside_elevator();
 
-void queue_system_set_state(bool** order_state,floor_enum current_floor, elevator_state_machine* state);
+void queue_system_set_state(int** order_state,floor_enum* current_floor, elevator_state_machine* state);
 
 #endif

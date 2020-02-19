@@ -29,22 +29,17 @@ void test_lights(floor_enum current_floor){
 }
 
 void test_go_to_floor(){
-    elevator_init();
     //timer_set_wait_time(3);
     floor_enum current_floor = floor_1;
-    elevator_go_to_floor(floor_3, current_floor, HARDWARE_ORDER_INSIDE);
+    //elevator_go_to_floor(floor_3, current_floor, HARDWARE_ORDER_INSIDE);
     current_floor = queue_system_return_floor(current_floor);
-    elevator_go_to_floor(floor_2, current_floor, HARDWARE_ORDER_INSIDE);
+    //elevator_go_to_floor(floor_2, current_floor, HARDWARE_ORDER_INSIDE);
 }
 
-void test_init(){
-    elevator_init();
-}
-
-void test_move_and_queue(bool **order_state, floor_enum current_floor, elevator_state_machine state){
-    while(true){
+void test_move_and_queue(int **order_state, floor_enum* current_floor, elevator_state_machine* state){
+    while(1){
     queue_system_check_for_orders(order_state);
-    if(state == idle){
+    if(*state == idle){
         queue_system_set_state(order_state, current_floor, state);
     }
     else{

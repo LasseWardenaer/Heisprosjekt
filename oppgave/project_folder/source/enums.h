@@ -1,7 +1,7 @@
 #ifndef ENUM
 #define ENUM
 
-typedef enum {
+typedef enum floor_enum{
     floor_1 = 0,
     floor_2 = 1,
     floor_3 = 2,
@@ -9,7 +9,7 @@ typedef enum {
     undefined_floor = 4
 } floor_enum;
 
-typedef enum {
+typedef enum direction{
     up,
     down
 } direction;
@@ -19,8 +19,7 @@ typedef enum {
     off = 0
 } on_off;
 
-typedef enum {
-    initilize,
+typedef enum elevator_state_machine{
     idle,
     move_up,
     move_down,
@@ -28,7 +27,7 @@ typedef enum {
     emergency_stop
 } elevator_state_machine;
 
-typedef enum {
+typedef enum light{
     floor_up_light,
     floor_down_light,
     elev_floor_1_light,

@@ -3,7 +3,7 @@
 #include "io.h"
 
 #include <stdlib.h>
-#include <stdbool.h>
+
 
 static int hardware_legal_floor(int floor, HardwareOrder order_type){
     int lower_floor = 0;
