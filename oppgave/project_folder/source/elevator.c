@@ -3,8 +3,12 @@
 #include "timer.h"
 #include "queue_system.h"
 
+int order_state[4][3] = {{0,0,0},{0,0,0},{0,0,0}, {0,0,0}};
+floor_enum current_floor=undefined_floor;
+elevator_state_machine state=idle;
 
-void elevator_init(elevator_state_machine state, floor_enum current_floor){
+
+void elevator_init(){
   current_floor = undefined_floor;
   hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
   while(current_floor != floor_1){
@@ -40,8 +44,9 @@ void elevator_init(elevator_state_machine state, floor_enum current_floor){
 //   elevator_close_door();
 // }
 
-void elevator_move(int** order_state,floor_enum* current_floor, elevator_state_machine *current_state){
-  switch(*current_state){
+void elevator_move(){
+  current_floor = queue_system_return_floor();
+  switch(state){
     case(idle):
       hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       break;
@@ -54,11 +59,13 @@ void elevator_move(int** order_state,floor_enum* current_floor, elevator_state_m
     case(door_open):
       break;
     case(emergency_stop):
+      hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+      queue_system_clear_all_orders();
       break;
   }  
-  if(queue_system_check_if_stop(current_state, *current_floor, order_state)){
+  if(queue_system_check_if_stop()){
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-    elevator_open_door(order_state);
+    elevator_open_door();
     elevator_close_door();
   }
 }
@@ -70,7 +77,7 @@ void elevator_close_door(){
 }
 
 
-void elevator_open_door(int **order_state){
+void elevator_open_door(){
   hardware_command_door_open(1);
   timer_set_wait_time(3, order_state);
 }
