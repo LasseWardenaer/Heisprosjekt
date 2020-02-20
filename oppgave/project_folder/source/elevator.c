@@ -114,7 +114,6 @@ void clear_all_order_lights(){
 
 int elevator_order_in_current_floor(){
   if(order_state[current_floor][ORDER_INSIDE]==1){
-      hardware_command_order_light(current_floor,HARDWARE_ORDER_INSIDE,0);
       elevator_open_door();
       timer_set_wait_time(3);
       elevator_close_door();
