@@ -18,8 +18,7 @@ int main(){
 
     elevator_init();
 
-    printf("Program started\n");
-    printf("Press the stop button on the elevator panel to exit\n");
+
 
     //printf("%d", *current_floor);
 

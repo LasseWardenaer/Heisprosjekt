@@ -4,7 +4,7 @@
 
 #include "enums.h"
 
-void test_lights(floor_enum* current_floor);
+// void test_lights(floor_enum* current_floor);
 
 void test_go_to_floor();
 

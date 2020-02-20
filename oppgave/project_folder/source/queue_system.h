@@ -4,6 +4,10 @@
 
 #include "hardware.h"
 
+#define ORDER_INSIDE 0
+#define ORDER_UP 1
+#define ORDER_DOWN 2
+
 void queue_system_check_for_orders();
 
 int check_above();
@@ -56,13 +60,7 @@ void queue_system_update_floor_ligths();
  */
 
 
-void queue_system_set_queue_and_light();
 
-/**
- * @brief Sets the floor lights insde the elevator
- */
-
-void queue_system_set_queue_and_light_inside_elevator();
 
 void queue_system_set_state();
 

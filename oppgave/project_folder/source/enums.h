@@ -28,18 +28,18 @@ typedef enum elevator_state_machine{
     emergency_stop
 } elevator_state_machine;
 
-typedef enum light{
-    floor_up_light,
-    floor_down_light,
-    elev_floor_1_light,
-    elev_floor_2_light,
-    elev_floor_3_light,
-    elev_floor_4_light,
-    floor_1_light,
-    floor_2_light,
-    floor_3_light,
-    floor_4_light,
-    stop_light
-} light;
+// typedef enum light{
+//     floor_up_light,
+//     floor_down_light,
+//     elev_floor_1_light,
+//     elev_floor_2_light,
+//     elev_floor_3_light,
+//     elev_floor_4_light,
+//     floor_1_light,
+//     floor_2_light,
+//     floor_3_light,
+//     floor_4_light,
+//     stop_light
+// } light;
 
 #endif

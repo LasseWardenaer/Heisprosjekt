@@ -51,14 +51,14 @@ int hardware_init(){
 
     for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++){
         if(i != 0){
-            hardware_command_order_light(HARDWARE_ORDER_DOWN, i, 0);
+            hardware_command_order_light(i, HARDWARE_ORDER_DOWN, 0);
         }
 
         if(i != HARDWARE_NUMBER_OF_FLOORS - 1){
-            hardware_command_order_light(HARDWARE_ORDER_UP, i, 0);
+            hardware_command_order_light(i, HARDWARE_ORDER_UP, 0);
         }
 
-        hardware_command_order_light(HARDWARE_ORDER_INSIDE, i, 0);
+        hardware_command_order_light(i, HARDWARE_ORDER_INSIDE, 0);
     }
 
     hardware_command_stop_light(0);
