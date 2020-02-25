@@ -45,11 +45,9 @@ void elevator_init(){
 
 void elevator_move(){
   current_floor = queue_system_return_floor();
-  int order_current_floor = 0;
   switch(state){
     case(idle):
       hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-      order_current_floor = elevator_order_in_current_floor();
       break;
     case(move_down):
       hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
@@ -57,24 +55,20 @@ void elevator_move(){
     case(move_up):
       hardware_command_movement(HARDWARE_MOVEMENT_UP);
       break;
-    case(door_open):
-      break;
     case(emergency_stop):
       hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       break;
   }
-  elevator_if_stop_pressed();
-  if(queue_system_check_if_stop() && !order_current_floor){
-    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-    elevator_open_door();
-    timer_set_wait_time(3);
-    elevator_close_door();
-  }
+  elevator_stop_pressed();
+  queue_system_check_if_stop();
+  elevator_order_in_current_floor();
+
 }
 
 
 void elevator_close_door(){
   hardware_command_door_open(0);
+
 }
 
 
@@ -83,9 +77,9 @@ void elevator_open_door(){
 }
 
 
-void elevator_if_stop_pressed(){
-  //elevator_state_machine last_dir = state;
-  //floor_enum last_floor = queue_system_return_floor(); 
+void elevator_stop_pressed(){
+  elevator_state_machine last_dir = state;
+  floor_enum last_floor = queue_system_return_floor(); 
   while(hardware_read_stop_signal()){
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
     hardware_command_stop_light(1);
@@ -94,7 +88,10 @@ void elevator_if_stop_pressed(){
     state = emergency_stop;
   }
   hardware_command_stop_light(0);
-  //current_floor = undefined_floor;
+  if (state==emergency_stop){
+    state=idle;
+    elevator_emergency_stop_handler(last_floor, last_dir);
+  }
 }
 
 void clear_all_order_lights(){
@@ -112,13 +109,60 @@ void clear_all_order_lights(){
     }
 }
 
-int elevator_order_in_current_floor(){
+void elevator_order_in_current_floor(){
   if(order_state[current_floor][ORDER_INSIDE]==1){
-      elevator_open_door();
-      timer_set_wait_time(3);
-      elevator_close_door();
-      order_state[current_floor][ORDER_INSIDE]=0;
-      return 1;
+      //hardware_command_order_light(current_floor, HARDWARE_ORDER_UP ,0); 
+      //hardware_command_order_light(current_floor, HARDWARE_ORDER_DOWN, 0);
+      hardware_command_order_light(current_floor, HARDWARE_ORDER_INSIDE, 0);      
+      
+      order_state[current_floor][ORDER_INSIDE]=0; 
+      //order_state[current_floor][ORDER_UP]=0; 
+      //order_state[current_floor][ORDER_DOWN]=0;
+      elevator_door_handler();
   }
-  return 0;
+}
+
+void elevator_door_handler(){
+  if(!queue_system_is_between_floor()){
+    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+    elevator_open_door();
+    timer_set_wait_time(3);
+    elevator_close_door();
+  }
+}
+
+void elevator_emergency_stop_handler(floor_enum last_floor, elevator_state_machine last_dir){
+  while (state==idle){
+    queue_system_check_for_orders();
+    if(order_state[current_floor][ORDER_INSIDE] || order_state[current_floor][ORDER_UP] || order_state[current_floor][ORDER_DOWN]){
+      if(last_dir==move_down){
+        hardware_command_door_open(0);
+        hardware_command_movement(HARDWARE_MOVEMENT_UP);
+        while (!hardware_read_floor_sensor(current_floor)){
+            state = last_dir;
+            elevator_stop_pressed();
+            queue_system_check_for_orders();
+        } 
+        hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+        break;
+      }
+    
+      else if (last_dir==move_up){
+        hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+        hardware_command_door_open(0);
+          while (!hardware_read_floor_sensor(current_floor)){
+            state = last_dir;
+            elevator_stop_pressed();
+            queue_system_check_for_orders();
+          } 
+          hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+        break;
+      }
+    }
+    else{
+      elevator_stop_pressed();
+      queue_system_set_state();
+      elevator_move();
+    }
+  }
 }

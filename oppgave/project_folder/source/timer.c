@@ -12,10 +12,12 @@ void timer_set_wait_time(int seconds){
     while (((clock()-start_time)/CLOCKS_PER_SEC)<seconds){
         queue_system_check_for_orders();
         queue_system_update_floor_ligths();
-        elevator_if_stop_pressed();
         hardware_command_order_light(current_floor,HARDWARE_ORDER_INSIDE,0);
-        if(!(hardware_read_obstruction_signal())||hardware_read_stop_signal()){
+        if((hardware_read_obstruction_signal())){
              start_time=clock();
+        }
+        if (hardware_read_stop_signal()){
+            queue_system_clear_all_orders();
         }
     }
 }

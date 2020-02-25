@@ -72,10 +72,14 @@ void elevator_open_door();
  * @return void
  */
 
-void elevator_if_stop_pressed();
+void elevator_stop_pressed();
 
 void elevator_move();
 
 void clear_all_order_lights();
 
-int elevator_order_in_current_floor();
+void elevator_order_in_current_floor();
+
+void elevator_door_handler();
+
+void elevator_emergency_stop_handler();

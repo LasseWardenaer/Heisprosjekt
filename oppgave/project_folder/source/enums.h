@@ -24,7 +24,6 @@ typedef enum elevator_state_machine{
     idle,
     move_up,
     move_down,
-    door_open,
     emergency_stop
 } elevator_state_machine;
 

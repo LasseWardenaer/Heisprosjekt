@@ -24,7 +24,7 @@ int check_below();
  * @return 1 if the elevator should stop at a floor
  */
 
-int queue_system_check_if_stop();
+void queue_system_check_if_stop();
 
 /**
  * @brief Clears all orders if stop button is pressed.
