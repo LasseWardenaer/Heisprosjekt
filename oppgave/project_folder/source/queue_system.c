@@ -13,45 +13,33 @@ extern int order_state[4][3];
 extern floor_enum current_floor;
 extern elevator_state_machine state;
 
-int check_orders_for_elevator[NUMBER_OF_FLOORS][NUMBER_OF_BUTTONS]={
-    {BUTTON_COMMAND1, BUTTON_UP1, BUTTON_DOWN1},
-    {BUTTON_COMMAND2, BUTTON_UP2, BUTTON_DOWN2},
-    {BUTTON_COMMAND3, BUTTON_UP3, BUTTON_DOWN3},
-    {BUTTON_COMMAND4, BUTTON_UP4, BUTTON_DOWN4}
-};
+// int check_orders_for_elevator[NUMBER_OF_FLOORS][NUMBER_OF_BUTTONS]={
+//     {BUTTON_COMMAND1, BUTTON_UP1, BUTTON_DOWN1},
+//     {BUTTON_COMMAND2, BUTTON_UP2, BUTTON_DOWN2},
+//     {BUTTON_COMMAND3, BUTTON_UP3, BUTTON_DOWN3},
+//     {BUTTON_COMMAND4, BUTTON_UP4, BUTTON_DOWN4}
+// };
 
-int lights_for_order[NUMBER_OF_FLOORS][NUMBER_OF_BUTTONS]={
-    {LIGHT_COMMAND1, LIGHT_UP1, LIGHT_DOWN1},
-    {LIGHT_COMMAND2, LIGHT_UP2, LIGHT_DOWN2},
-    {LIGHT_COMMAND3, LIGHT_UP3, LIGHT_DOWN3},
-    {LIGHT_COMMAND4, LIGHT_UP4, LIGHT_DOWN4}
-};
+// int lights_for_order[NUMBER_OF_FLOORS][NUMBER_OF_BUTTONS]={
+//     {LIGHT_COMMAND1, LIGHT_UP1, LIGHT_DOWN1},
+//     {LIGHT_COMMAND2, LIGHT_UP2, LIGHT_DOWN2},
+//     {LIGHT_COMMAND3, LIGHT_UP3, LIGHT_DOWN3},
+//     {LIGHT_COMMAND4, LIGHT_UP4, LIGHT_DOWN4}
+// };
+
 
 void queue_system_check_for_orders(){
-    for (int floor=0; floor<NUMBER_OF_FLOORS;floor++){
-        for (int j=0; j<NUMBER_OF_BUTTONS; j++){
-            if (hardware_read_order(floor, j)){
-                if (j==0){
-                    order_state[floor][ORDER_UP]=1;
-                    hardware_command_order_light(floor,HARDWARE_ORDER_UP,1);
-                }
-                else if (j==1){
-                    order_state[floor][ORDER_INSIDE]=1;
-                    hardware_command_order_light(floor,HARDWARE_ORDER_INSIDE,1);
-                }
-                else if (j==2){
-                    order_state[floor][ORDER_DOWN]=1;
-                    hardware_command_order_light(floor,HARDWARE_ORDER_DOWN,1);
-                }
+    for (int floor=floor_1; floor<=floor_4;floor++){
+        for (order_button button=ORDER_UP; button<=ORDER_DOWN; button++){
+            if (hardware_read_order(floor, button)){
+                    order_state[floor][button]=1;
+                    hardware_command_order_light(floor,button,1);
             }
         }
     }
 }
 
 int check_above(){
-    if(current_floor == floor_4){
-        return 0;
-        }
     for(int floor = (current_floor + 1); floor < 4; floor++){
         for(int state = 0; state < 3; state++){
             if(order_state[floor][state] == 1){
@@ -63,9 +51,6 @@ int check_above(){
 }
 
 int check_below(){
-    if(current_floor == floor_1){
-        return 0;
-    }
     for(int floor = (current_floor - 1); floor > -1; floor--){
         for(int state = 0; state < 3; state ++){
             if(order_state[floor][state] == 1){
@@ -165,7 +150,7 @@ void queue_system_check_if_stop(){
 // }
 
 void queue_system_clear_all_orders(){
-    for(int floor = 0; floor < NUMBER_OF_FLOORS; floor++){
+    for(int floor = 0; floor <= floor_4; floor++){
         for(int state = 0; state < 3; state++){
             order_state[floor][state] = 0;
         }
@@ -174,7 +159,7 @@ void queue_system_clear_all_orders(){
 }
 
 floor_enum queue_system_return_floor(){
-    for (floor_enum floor =floor_1; floor<floor_4+1;floor++){
+    for (floor_enum floor =floor_1; floor<=floor_4;floor++){
         if (hardware_read_floor_sensor(floor)){
             return floor;
         }
@@ -206,7 +191,7 @@ floor_enum queue_system_return_floor(){
 // }
 
 int queue_system_is_between_floor(){
-    for (floor_enum floor=floor_1; floor<floor_4+1;floor++){
+    for (floor_enum floor=floor_1; floor<=floor_4;floor++){
         if (hardware_read_floor_sensor(floor)){
             return 0;
         }

@@ -2,7 +2,7 @@
 #define ENUM
 
 
-typedef enum floor_enum{
+typedef enum {
     floor_1 = 0,
     floor_2 = 1,
     floor_3 = 2,
@@ -10,7 +10,14 @@ typedef enum floor_enum{
     undefined_floor = 4
 } floor_enum;
 
-typedef enum direction{
+typedef enum {
+        ORDER_UP,
+        ORDER_INSIDE,
+        ORDER_DOWN
+} order_button;
+
+
+typedef enum {
     up,
     down
 } direction;
@@ -20,7 +27,7 @@ typedef enum {
     off = 0
 } on_off;
 
-typedef enum elevator_state_machine{
+typedef enum {
     idle,
     move_up,
     move_down,

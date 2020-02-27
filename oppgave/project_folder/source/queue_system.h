@@ -4,9 +4,6 @@
 
 #include "hardware.h"
 
-#define ORDER_INSIDE 0
-#define ORDER_UP 1
-#define ORDER_DOWN 2
 
 void queue_system_check_for_orders();
 
