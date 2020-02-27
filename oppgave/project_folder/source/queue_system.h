@@ -4,17 +4,25 @@
 
 #include "hardware.h"
 
+/**
+ * @brief Evaluates whether there are any new orders and
+ */
 
 void queue_system_check_for_orders();
 
-int check_above();
-
-int check_below();
-
 /**
- * @brief Updates the queue list
+ * @brief Check if there are any orders above the current floor.
+ * @return 1 if the elevator has any orders above the current floor.
  */
 
+int queue_system_check_above();
+
+/**
+ * @brief Check if there are any orders below the current floor.
+ * @return 1 if the elevator has any orders below the current floor.
+ */
+
+int queue_system_check_below();
 
 /**
  * @brief Check if the elevator should stop at a floor
@@ -45,21 +53,15 @@ floor_enum queue_system_return_floor();
 void queue_system_update_floor_ligths();
 
 /**
- * @brief Updates the floor light when the elevator reaches a new floor
- * @return Floor light pushed
+ * @brief Updates the state of the elevator
  */
-
-/**
- * @brief Set order light at floor on or off.
- * @param floor Selected floor.
- * @param dir Sets the direction of the light.
- * @param on_off Sets the light state on or off.
- */
-
-
-
 
 void queue_system_set_state();
+
+/**
+ * @brief Checks if the elevator is between two floors. 
+ * @return 1 if the elevator is between two floors.
+ */
 
 int queue_system_is_between_floor();
 
