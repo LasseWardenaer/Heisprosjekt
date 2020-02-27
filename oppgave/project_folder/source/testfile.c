@@ -3,6 +3,7 @@
 #include "elevator.h"
 #include "timer.h"
 #include "queue_system.h"
+#include <stdio.h>
 
 extern elevator_state_machine state;
 

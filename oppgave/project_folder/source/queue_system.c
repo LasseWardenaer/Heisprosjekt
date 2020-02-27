@@ -76,7 +76,10 @@ int check_below(){
     return 0;
 }
 
+
+
 void queue_system_check_if_stop(){
+    current_floor = queue_system_return_floor();
     switch (state)
     {
     case (move_up):
@@ -91,7 +94,6 @@ void queue_system_check_if_stop(){
                 state=idle;
             }
         }
-
         break;
     }
     case (move_down):
@@ -105,8 +107,8 @@ void queue_system_check_if_stop(){
             if(!check_below()){
                 state=idle;
             }
-            break;
-    }
+        }
+        break;
     }
     case (idle):
         queue_system_set_state();
@@ -114,7 +116,6 @@ void queue_system_check_if_stop(){
     
     case (emergency_stop):
         hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-        state=idle;
         break;
     }
 }
@@ -173,43 +174,62 @@ void queue_system_clear_all_orders(){
 }
 
 floor_enum queue_system_return_floor(){
-    if(hardware_read_floor_sensor(floor_1)){
-        current_floor=floor_1;
-        return floor_1;
+    for (floor_enum floor =floor_1; floor<floor_4+1;floor++){
+        if (hardware_read_floor_sensor(floor)){
+            return floor;
+        }
     }
-    else if(hardware_read_floor_sensor(floor_2)){
-        current_floor=floor_2;
-        return floor_2;
-        
-    }
-    else if(hardware_read_floor_sensor(floor_3)){
-        current_floor=floor_3;
-        return floor_3;  
-    }
-    else if(hardware_read_floor_sensor(floor_4)){
-        current_floor=floor_4;
-        return floor_4;
-    }
-    else{
-        return current_floor;
-    }
+    return current_floor;
 }
 
+// floor_enum queue_system_return_floor(){
+//     if(hardware_read_floor_sensor(floor_1)){
+//         current_floor=floor_1;
+//         return floor_1;
+//     }
+//     else if(hardware_read_floor_sensor(floor_2)){
+//         current_floor=floor_2;
+//         return floor_2;
+        
+//     }
+//     else if(hardware_read_floor_sensor(floor_3)){
+//         current_floor=floor_3;
+//         return floor_3;  
+//     }
+//     else if(hardware_read_floor_sensor(floor_4)){
+//         current_floor=floor_4;
+//         return floor_4;
+//     }
+//     else{
+//         return current_floor;
+//     }
+// }
+
 int queue_system_is_between_floor(){
-    if(hardware_read_floor_sensor(floor_1)){
-        return 0;
-    }
-     if(hardware_read_floor_sensor(floor_2)){
-        return 0;
-    }
-     if(hardware_read_floor_sensor(floor_3)){
-        return 0;
-    }
-     if(hardware_read_floor_sensor(floor_4)){
-        return 0;
+    for (floor_enum floor=floor_1; floor<floor_4+1;floor++){
+        if (hardware_read_floor_sensor(floor)){
+            return 0;
+        }
     }
     return 1;
 }
+
+
+// int queue_system_is_between_floor(){
+//     if(hardware_read_floor_sensor(floor_1)){
+//         return 0;
+//     }
+//      if(hardware_read_floor_sensor(floor_2)){
+//         return 0;
+//     }
+//      if(hardware_read_floor_sensor(floor_3)){
+//         return 0;
+//     }
+//      if(hardware_read_floor_sensor(floor_4)){
+//         return 0;
+//     }
+//     return 1;
+// }
 
 
 void queue_system_update_floor_ligths(){
@@ -218,10 +238,59 @@ void queue_system_update_floor_ligths(){
 
 
 void queue_system_set_state(){
-    if((check_above()||order_state[current_floor][ORDER_UP]) && state != move_down){
-        state = move_up;
-    }
-    else if(!check_above() && (check_below()||order_state[current_floor][ORDER_DOWN])){
-        state = move_down;
+    switch (state){
+        case (move_up):{
+            if (check_above() || order_state[current_floor][ORDER_UP]){
+                state=move_up;
+            }
+            else if (order_state[current_floor][ORDER_DOWN]){
+                state=move_down;
+            }
+            break;
+        }
+        case (move_down):{
+            if (check_below() || order_state[current_floor][ORDER_DOWN]){
+                state=move_down;
+            }
+            else if (order_state[current_floor][ORDER_UP]){
+                state=move_up;
+            }
+            break;
+        }
+        case (idle):
+            if((check_above()||order_state[current_floor][ORDER_UP])){
+                state = move_up;
+                hardware_command_order_light(current_floor,HARDWARE_ORDER_INSIDE,0);
+                if (order_state[current_floor][ORDER_UP]&&!queue_system_is_between_floor()){
+                    elevator_door_handler();
+                    hardware_command_order_light(current_floor, HARDWARE_ORDER_UP, 0);
+                    order_state[current_floor][ORDER_UP]=0;
+                    order_state[current_floor][ORDER_INSIDE]=0;                
+                    }
+                    if (!check_above()){
+                        state=idle;
+                    }
+            }
+            else if((check_below()||order_state[current_floor][ORDER_DOWN])){
+                state = move_down;
+                hardware_command_order_light(current_floor, HARDWARE_ORDER_INSIDE, 0);
+                  if (order_state[current_floor][ORDER_DOWN]&&!queue_system_is_between_floor()){
+                    elevator_door_handler();
+                    hardware_command_order_light(current_floor, HARDWARE_ORDER_DOWN, 0);
+                    order_state[current_floor][ORDER_DOWN]=0;
+                    order_state[current_floor][ORDER_DOWN]=0;
+                    if (!check_below()){
+                        state=idle;
+                    }
+                }
+            }
+            else if (order_state[current_floor][ORDER_INSIDE]&&!queue_system_is_between_floor()){
+                    elevator_door_handler();
+                    hardware_command_order_light(current_floor, HARDWARE_ORDER_INSIDE, 0);
+                    order_state[current_floor][ORDER_INSIDE]=0; 
+            }
+            break;
+        case (emergency_stop):
+            break;
     }
 }

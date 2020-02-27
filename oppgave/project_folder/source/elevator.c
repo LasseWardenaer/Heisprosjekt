@@ -5,7 +5,7 @@
 
 int order_state[4][3] = {{0,0,0},{0,0,0},{0,0,0}, {0,0,0}};
 floor_enum current_floor=undefined_floor;
-elevator_state_machine state=idle;
+elevator_state_machine state;
 
 
 void elevator_init(){
@@ -18,33 +18,8 @@ void elevator_init(){
   state = idle;
 }
 
-// void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, HardwareOrder order_type){
-//   int keep_going = 1;
-//   int diff = (floor_variable-current_floor);
-//   while (keep_going){
-//     diff = (floor_variable-current_floor);
-//     current_floor = queue_system_return_floor(current_floor);
-//     elevator_stop_movement();
-    
-//     if (diff>0){
-//       hardware_command_movement(HARDWARE_MOVEMENT_UP);
-//     }
-//     else if (diff<0){
-//       hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-//     }
-//     else {
-//       hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-//       break;
-//     }
-//   }
-//   hardware_command_order_light(floor_variable, order_type, 0);
-//   elevator_open_door();
-//   timer_set_wait_time(3);
-//   elevator_close_door();
-// }
 
 void elevator_move(){
-  current_floor = queue_system_return_floor();
   switch(state){
     case(idle):
       hardware_command_movement(HARDWARE_MOVEMENT_STOP);
@@ -59,24 +34,10 @@ void elevator_move(){
       hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       break;
   }
+  //elevator_order_in_current_floor();
   elevator_stop_pressed();
   queue_system_check_if_stop();
-  elevator_order_in_current_floor();
-
 }
-
-//sjhdbvjksdv
-
-void elevator_close_door(){
-  hardware_command_door_open(0);
-
-}
-
-
-void elevator_open_door(){
-  hardware_command_door_open(1);
-}
-
 
 void elevator_stop_pressed(){
   elevator_state_machine last_dir = state;
@@ -87,9 +48,15 @@ void elevator_stop_pressed(){
     queue_system_clear_all_orders();
     clear_all_order_lights();
     state = emergency_stop;
+    if (!queue_system_is_between_floor()){
+      hardware_command_door_open(1);
+    }
   }
   hardware_command_stop_light(0);
   if (state==emergency_stop){
+    if (!queue_system_is_between_floor()){
+      elevator_door_handler();
+    }
     state=idle;
     elevator_emergency_stop_handler(last_floor, last_dir);
   }
@@ -110,30 +77,25 @@ void clear_all_order_lights(){
     }
 }
 
-void elevator_order_in_current_floor(){
-  if(order_state[current_floor][ORDER_INSIDE]==1){
-      //hardware_command_order_light(current_floor, HARDWARE_ORDER_UP ,0); 
-      //hardware_command_order_light(current_floor, HARDWARE_ORDER_DOWN, 0);
-      hardware_command_order_light(current_floor, HARDWARE_ORDER_INSIDE, 0);      
-      
-      order_state[current_floor][ORDER_INSIDE]=0; 
-      //order_state[current_floor][ORDER_UP]=0; 
-      //order_state[current_floor][ORDER_DOWN]=0;
-      elevator_door_handler();
-  }
-}
+// void elevator_order_in_current_floor(){
+//   if(order_state[current_floor][ORDER_INSIDE]==1 && !queue_system_is_between_floor()){
+//       hardware_command_order_light(current_floor, HARDWARE_ORDER_INSIDE, 0);
+//       order_state[current_floor][ORDER_INSIDE]=0; 
+//       elevator_door_handler();
+//   }
+// }
 
 void elevator_door_handler(){
   if(!queue_system_is_between_floor()){
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-    elevator_open_door();
+    hardware_command_door_open(1);
     timer_set_wait_time(3);
-    elevator_close_door();
+    hardware_command_door_open(0);
   }
 }
 
 void elevator_emergency_stop_handler(floor_enum last_floor, elevator_state_machine last_dir){
-  while (state==idle){
+  while (queue_system_is_between_floor()){
     queue_system_check_for_orders();
     if(order_state[current_floor][ORDER_INSIDE] || order_state[current_floor][ORDER_UP] || order_state[current_floor][ORDER_DOWN]){
       if(last_dir==move_down){
@@ -145,9 +107,7 @@ void elevator_emergency_stop_handler(floor_enum last_floor, elevator_state_machi
             queue_system_check_for_orders();
         } 
         hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-        break;
       }
-    
       else if (last_dir==move_up){
         hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
         hardware_command_door_open(0);
@@ -157,12 +117,10 @@ void elevator_emergency_stop_handler(floor_enum last_floor, elevator_state_machi
             queue_system_check_for_orders();
           } 
           hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-        break;
       }
     }
     else{
-      elevator_stop_pressed();
-      queue_system_set_state();
+      queue_system_update_floor_ligths();
       elevator_move();
     }
   }

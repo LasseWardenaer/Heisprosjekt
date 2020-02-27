@@ -37,19 +37,6 @@ void elevator_init();
 
 // void elevator_go_to_floor(floor_enum floor_variable, floor_enum current_floor, HardwareOrder order_type);
 
-/**
- * @brief Closes door.
- * @return void
- */
-
-void elevator_close_door();
-
-/**
- * @brief Opens door.
- * @return void
- */
-
-void elevator_open_door();
 
 // /**
 //  * @brief Turns the selected light off.

@@ -18,11 +18,6 @@ int main(){
 
     elevator_init();
 
-
-
-    //printf("%d", *current_floor);
-
-    //test_lights(current_floor);
-    //test_go_to_floor();
+    while(1)
     test_move_and_queue();
 }

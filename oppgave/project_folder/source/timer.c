@@ -14,10 +14,10 @@ void timer_set_wait_time(int seconds){
         queue_system_update_floor_ligths();
         hardware_command_order_light(current_floor,HARDWARE_ORDER_INSIDE,0);
         if((hardware_read_obstruction_signal())){
-             start_time=clock();
+            start_time=clock();
         }
         if (hardware_read_stop_signal()){
-            queue_system_clear_all_orders();
+            elevator_stop_pressed();
         }
     }
 }
