@@ -48,7 +48,7 @@ void elevator_door_handler();
  * @return void
  */
 
-void elevator_emergency_stop_handler();
+void elevator_emergency_stop_handler(floor_enum last_floor, elevator_state_machine last_dir);
 
 /**
  * @brief Runs the elevator.

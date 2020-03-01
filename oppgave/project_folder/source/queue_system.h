@@ -9,7 +9,7 @@
 #include "hardware.h"
 
 /**
- * @brief Evaluates whether there are any new orders and setting order light
+ * @brief Evaluates whether there are any new orders and sets order light.
  * @return void
  */
 
