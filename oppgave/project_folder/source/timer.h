@@ -3,7 +3,7 @@
 
 /**
  * @file
- * @brief Timer module, only makes the system wait for a given time.
+ * @brief Timer module, makes the system wait for a given time.
  */
 
 /**
