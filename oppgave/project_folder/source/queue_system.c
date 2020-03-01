@@ -4,7 +4,6 @@
 #include "elevator.h"
 #include "driver/channels.h"
 #include "driver/io.h"
-#include <stdio.h>
 #include "timer.h"
 
 
@@ -57,11 +56,15 @@ void queue_system_check_if_stop(){
         if((order_state[current_floor][ORDER_INSIDE] || order_state[current_floor][ORDER_UP]) && !queue_system_is_between_floor()){
             order_state[current_floor][ORDER_INSIDE] = 0; 
             order_state[current_floor][ORDER_UP] = 0;
-            hardware_command_order_light(current_floor, HARDWARE_ORDER_UP, 0);
-            hardware_command_order_light(current_floor, HARDWARE_ORDER_INSIDE, 0);
+            hardware_command_order_light(current_floor, ORDER_UP, 0);
+            hardware_command_order_light(current_floor, ORDER_INSIDE, 0);
             elevator_door_handler();
             if(!queue_system_check_above()){
                 state=idle;
+                if (order_state[current_floor][ORDER_DOWN]){
+                    order_state[current_floor][ORDER_DOWN]=0;
+                    hardware_command_order_light(current_floor, ORDER_DOWN,0);
+                }
             }
         }
         break;
@@ -71,11 +74,15 @@ void queue_system_check_if_stop(){
         if((order_state[current_floor][ORDER_INSIDE] || order_state[current_floor][ORDER_DOWN]) && !queue_system_is_between_floor()){
             order_state[current_floor][ORDER_INSIDE] = 0; 
             order_state[current_floor][ORDER_DOWN] = 0;
-            hardware_command_order_light(current_floor, HARDWARE_ORDER_DOWN, 0);
-            hardware_command_order_light(current_floor, HARDWARE_ORDER_INSIDE, 0);
+            hardware_command_order_light(current_floor, ORDER_DOWN, 0);
+            hardware_command_order_light(current_floor, ORDER_INSIDE, 0);
             elevator_door_handler();
             if(!queue_system_check_below()){
-                state=idle;
+                    state=idle;
+                    if (order_state[current_floor][ORDER_UP]){
+                        order_state[current_floor][ORDER_UP]=0;
+                        hardware_command_order_light(current_floor, ORDER_UP,0);
+                    }
             }
         }
         break;
@@ -96,7 +103,7 @@ void queue_system_clear_all_orders(){
             order_state[floor][state] = 0;
         }
     }
-    clear_all_order_lights();
+    elevator_clear_all_order_lights();
 }
 
 floor_enum queue_system_return_floor(){
@@ -146,10 +153,10 @@ void queue_system_set_state(){
         case (idle):
             if((queue_system_check_above()||order_state[current_floor][ORDER_UP])){
                 state = move_up;
-                hardware_command_order_light(current_floor,HARDWARE_ORDER_INSIDE,0);
+                hardware_command_order_light(current_floor,ORDER_INSIDE,0);
                 if (order_state[current_floor][ORDER_UP]&&!queue_system_is_between_floor()){
                     elevator_door_handler();
-                    hardware_command_order_light(current_floor, HARDWARE_ORDER_UP, 0);
+                    hardware_command_order_light(current_floor, ORDER_UP, 0);
                     order_state[current_floor][ORDER_UP]=0;
                     order_state[current_floor][ORDER_INSIDE]=0;                
                     }
@@ -159,10 +166,10 @@ void queue_system_set_state(){
             }
             else if((queue_system_check_below()||order_state[current_floor][ORDER_DOWN])){
                 state = move_down;
-                hardware_command_order_light(current_floor, HARDWARE_ORDER_INSIDE, 0);
+                hardware_command_order_light(current_floor, ORDER_INSIDE, 0);
                   if (order_state[current_floor][ORDER_DOWN]&&!queue_system_is_between_floor()){
                     elevator_door_handler();
-                    hardware_command_order_light(current_floor, HARDWARE_ORDER_DOWN, 0);
+                    hardware_command_order_light(current_floor, ORDER_DOWN, 0);
                     order_state[current_floor][ORDER_DOWN]=0;
                     order_state[current_floor][ORDER_DOWN]=0;
                     if (!queue_system_check_below()){
@@ -172,7 +179,7 @@ void queue_system_set_state(){
             }
             else if (order_state[current_floor][ORDER_INSIDE]&&!queue_system_is_between_floor()){
                     elevator_door_handler();
-                    hardware_command_order_light(current_floor, HARDWARE_ORDER_INSIDE, 0);
+                    hardware_command_order_light(current_floor, ORDER_INSIDE, 0);
                     order_state[current_floor][ORDER_INSIDE]=0; 
             }
             break;

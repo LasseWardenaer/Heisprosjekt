@@ -1,17 +1,16 @@
 /**
  * @file
- * @brief This is an elevator module
+ * @brief This is the elevator module
  */
-#pragma once
+#ifndef ELEVATOR_H
+#define ELEVATOR_H
+
 #include "enums.h"
 #include "hardware.h"
 #include <unistd.h>
 
-#define NUMBER_OF_FLOORS 4
-#define NUMBER_OF_BUTTONS 3
-
 /**
- * @brief Initilizes the elvator during start up sequence.
+ * @brief Initilaizes the elvator during start up sequence.
  */
 
 void elevator_init();
@@ -25,24 +24,37 @@ void elevator_stop_pressed();
 
 /**
  * @brief Sets the movement of the elevator which is decided by the state. 
+ * @return void
  */
 
 void elevator_move();
 
 /**
- * @brief Clears all the lights, both at the floor and in the elevator.
+ * @brief Clears all the order lights, both at the floor and in the elevator.
+ * @return void
  */
 
-void clear_all_order_lights();
+void elevator_clear_all_order_lights();
 
 /**
- * @brief Opens and closes the door, while checking for obstructions.
+ * @brief Opens and closes the door, while checking for obstructions and waiting 3 seconds.
+ * @return void
  */
 
 void elevator_door_handler();
 
 /**
  * @brief Handles emergency stop.
+ * @return void
  */
 
 void elevator_emergency_stop_handler();
+
+/**
+ * @brief Runs the elevator.
+ * @return void
+ */
+
+void elevator_run();
+
+#endif

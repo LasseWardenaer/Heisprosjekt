@@ -34,8 +34,6 @@ void elevator_move(){
       hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       break;
   }
-  elevator_stop_pressed();
-  queue_system_check_if_stop();
 }
 
 void elevator_stop_pressed(){
@@ -45,7 +43,7 @@ void elevator_stop_pressed(){
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
     hardware_command_stop_light(1);
     queue_system_clear_all_orders();
-    clear_all_order_lights();
+    elevator_clear_all_order_lights();
     state = emergency_stop;
     if (!queue_system_is_between_floor()){
       hardware_command_door_open(1);
@@ -61,7 +59,7 @@ void elevator_stop_pressed(){
   }
 }
 
-void clear_all_order_lights(){
+void elevator_clear_all_order_lights(){
   for(floor_enum floor = floor_1; floor <= floor_4; floor++){
     for(order_button button = ORDER_UP; button <= ORDER_DOWN; button++){
         hardware_command_order_light(floor, button, 0);
@@ -106,6 +104,19 @@ void elevator_emergency_stop_handler(floor_enum last_floor, elevator_state_machi
     else{
       queue_system_update_floor_ligths();
       elevator_move();
+      elevator_stop_pressed();
+      queue_system_check_if_stop();
     }
   }
+}
+
+void elevator_run(){
+    while(1){
+        queue_system_check_for_orders();
+        queue_system_update_floor_ligths();
+        queue_system_set_state();
+        elevator_move();
+        elevator_stop_pressed();
+        queue_system_check_if_stop();
+    }
 }

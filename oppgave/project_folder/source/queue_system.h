@@ -1,11 +1,16 @@
-#ifndef QUEUE_SYSTEM
-#define QUEUE_SYSTEM
+#ifndef QUEUE_SYSTEM_H
+#define QUEUE_SYSTEM_H
 
+/**
+ * @file
+ * @brief Queue system module, used to update the order_state matrix, set the state, set order lights and check if the elevator should stop.
+ */
 
 #include "hardware.h"
 
 /**
- * @brief Evaluates whether there are any new orders and
+ * @brief Evaluates whether there are any new orders and setting order light
+ * @return void
  */
 
 void queue_system_check_for_orders();
@@ -47,6 +52,7 @@ floor_enum queue_system_return_floor();
 
 /**
  * @brief Updates the floor light when the elevator reaches a new floor
+ * @return void
  *
  */
 
@@ -54,6 +60,7 @@ void queue_system_update_floor_ligths();
 
 /**
  * @brief Updates the state of the elevator
+ * @return void
  */
 
 void queue_system_set_state();

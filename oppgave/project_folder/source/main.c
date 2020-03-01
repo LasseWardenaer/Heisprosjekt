@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "hardware.h"
 #include "enums.h"
-#include "testfile.h"
 #include "queue_system.h"
 #include "elevator.h"
 
@@ -18,6 +17,5 @@ int main(){
 
     elevator_init();
 
-    while(1)
-    test_move_and_queue();
+    elevator_run();
 }
