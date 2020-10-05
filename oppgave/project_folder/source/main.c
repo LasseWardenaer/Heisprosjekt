@@ -6,7 +6,6 @@
 #include "elevator.h"
 
 
-
 int main(){
 
     int error = hardware_init();
@@ -18,4 +17,5 @@ int main(){
     elevator_init();
 
     elevator_run();
+
 }

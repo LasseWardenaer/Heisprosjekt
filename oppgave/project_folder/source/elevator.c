@@ -38,7 +38,7 @@ void elevator_move(){
 
 void elevator_stop_pressed(){
   elevator_state_machine last_dir = state;
-  floor_enum last_floor = queue_system_return_floor(); 
+  floor_enum last_floor = queue_system_return_floor();
   while(hardware_read_stop_signal()){
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
     hardware_command_stop_light(1);
@@ -87,7 +87,7 @@ void elevator_emergency_stop_handler(floor_enum last_floor, elevator_state_machi
             state = last_dir;
             elevator_stop_pressed();
             queue_system_check_for_orders();
-        } 
+        }
         hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       }
       else if (last_dir==move_up){
@@ -97,7 +97,7 @@ void elevator_emergency_stop_handler(floor_enum last_floor, elevator_state_machi
             state = last_dir;
             elevator_stop_pressed();
             queue_system_check_for_orders();
-          } 
+          }
           hardware_command_movement(HARDWARE_MOVEMENT_STOP);
       }
     }
@@ -120,3 +120,5 @@ void elevator_run(){
         queue_system_check_if_stop();
     }
 }
+
+// Last push

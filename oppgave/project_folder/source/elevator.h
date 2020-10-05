@@ -23,7 +23,7 @@ void elevator_init();
 void elevator_stop_pressed();
 
 /**
- * @brief Sets the movement of the elevator which is decided by the state. 
+ * @brief Sets the movement of the elevator which is decided by the state.
  * @return void
  */
 
@@ -56,5 +56,7 @@ void elevator_emergency_stop_handler(floor_enum last_floor, elevator_state_machi
  */
 
 void elevator_run();
+
+// Last push
 
 #endif

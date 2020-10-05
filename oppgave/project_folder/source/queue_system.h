@@ -66,10 +66,11 @@ void queue_system_update_floor_ligths();
 void queue_system_set_state();
 
 /**
- * @brief Checks if the elevator is between two floors. 
+ * @brief Checks if the elevator is between two floors.
  * @return 1 if the elevator is between two floors.
  */
 
 int queue_system_is_between_floor();
+
 
 #endif

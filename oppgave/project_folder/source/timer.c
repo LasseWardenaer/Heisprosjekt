@@ -12,6 +12,7 @@ void timer_set_wait_time(int seconds){
         queue_system_check_for_orders();
         queue_system_update_floor_ligths();
         hardware_command_order_light(current_floor,ORDER_INSIDE,0);
+
         if((hardware_read_obstruction_signal())){
             start_time=clock();
         }

@@ -46,7 +46,6 @@ int queue_system_check_below(){
 }
 
 
-
 void queue_system_check_if_stop(){
     current_floor = queue_system_return_floor();
     switch (state)
@@ -54,7 +53,7 @@ void queue_system_check_if_stop(){
     case (move_up):
     {
         if((order_state[current_floor][ORDER_INSIDE] || order_state[current_floor][ORDER_UP]) && !queue_system_is_between_floor()){
-            order_state[current_floor][ORDER_INSIDE] = 0; 
+            order_state[current_floor][ORDER_INSIDE] = 0;
             order_state[current_floor][ORDER_UP] = 0;
             hardware_command_order_light(current_floor, ORDER_UP, 0);
             hardware_command_order_light(current_floor, ORDER_INSIDE, 0);
@@ -72,7 +71,7 @@ void queue_system_check_if_stop(){
     case (move_down):
     {
         if((order_state[current_floor][ORDER_INSIDE] || order_state[current_floor][ORDER_DOWN]) && !queue_system_is_between_floor()){
-            order_state[current_floor][ORDER_INSIDE] = 0; 
+            order_state[current_floor][ORDER_INSIDE] = 0;
             order_state[current_floor][ORDER_DOWN] = 0;
             hardware_command_order_light(current_floor, ORDER_DOWN, 0);
             hardware_command_order_light(current_floor, ORDER_INSIDE, 0);
@@ -90,7 +89,7 @@ void queue_system_check_if_stop(){
     case (idle):
         queue_system_set_state();
         break;
-    
+
     case (emergency_stop):
         hardware_command_movement(HARDWARE_MOVEMENT_STOP);
         break;
@@ -158,7 +157,7 @@ void queue_system_set_state(){
                     elevator_door_handler();
                     hardware_command_order_light(current_floor, ORDER_UP, 0);
                     order_state[current_floor][ORDER_UP]=0;
-                    order_state[current_floor][ORDER_INSIDE]=0;                
+                    order_state[current_floor][ORDER_INSIDE]=0;
                     }
                     if (!queue_system_check_above()){
                         state=idle;
@@ -180,7 +179,7 @@ void queue_system_set_state(){
             else if (order_state[current_floor][ORDER_INSIDE]&&!queue_system_is_between_floor()){
                     elevator_door_handler();
                     hardware_command_order_light(current_floor, ORDER_INSIDE, 0);
-                    order_state[current_floor][ORDER_INSIDE]=0; 
+                    order_state[current_floor][ORDER_INSIDE]=0;
             }
             break;
         case (emergency_stop):
